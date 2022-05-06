@@ -1,4 +1,4 @@
-package pl.example.currencycalculator.model;
+package pl.example.currencycalculator.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Currency {
+public class CurrencyDto {
     private String currency;
     private String code;
     private float mid;
