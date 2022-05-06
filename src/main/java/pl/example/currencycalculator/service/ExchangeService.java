@@ -19,17 +19,38 @@ public class ExchangeService {
     private static final String URL = "https://api.nbp.pl/api/exchangerates/tables/a";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    private List<CurrencyDto> getAllAvailableCurrencies() {
+    private List<CurrencyDto> getAll() {
         TableDto[] table = restTemplate.getForObject(URL, TableDto[].class);
         if (table != null && table.length > 0)
             return table[0].getRates();
         return new ArrayList<>();
     }
 
-    public List<String> getAllCodes(){
-         return getAllAvailableCurrencies()
-                 .stream()
-                 .map(CurrencyDto::getCode)
-                 .collect(Collectors.toList());
+    private CurrencyDto getByCode(String code) {
+        List<CurrencyDto> all = getAll();
+        return all.get(
+                all.indexOf(
+                        CurrencyDto
+                                .builder()
+                                .code(code)
+                                .build())
+        );
+    }
+
+    public List<String> getAllCodes() {
+        return getAll()
+                .stream()
+                .map(CurrencyDto::getCode)
+                .collect(Collectors.toList());
+    }
+
+    public float convertCurrency(String codeAsk,
+                                  float valueAsk,
+                                  String codeBid) {
+
+        CurrencyDto currencyAsk = getByCode(codeAsk);
+        CurrencyDto currencyBid = getByCode(codeBid);
+
+        return valueAsk*currencyAsk.getMid()/currencyBid.getMid();
     }
 }
