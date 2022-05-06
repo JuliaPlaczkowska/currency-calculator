@@ -15,7 +15,6 @@ public class ExchangeController {
 
     @GetMapping("/currencies")
     public ResponseEntity<?> getAll() {
-
-        return ResponseEntity.ok(exchangeService.getAllAvailableCurrencies());
+        return ResponseEntity.ok(exchangeService.getAllCodes());
     }
 }
