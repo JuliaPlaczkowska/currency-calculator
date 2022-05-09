@@ -30,14 +30,6 @@ public class ExchangeService {
         return new ArrayList<>();
     }
 
-    private CurrencyDto getByCode(String code) {
-        List<CurrencyDto> currencies = getByCodes(new HashSet<String>() {{
-            add(code);
-        }});
-
-        return currencies.get(0);
-    }
-
     public List<CurrencyDto> getByCodes(Set<String> codes) {
         List<CurrencyDto> all = getAll();
         return all
