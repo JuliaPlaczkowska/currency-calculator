@@ -3,11 +3,10 @@ package pl.example.currencycalculator.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.example.currencycalculator.service.ExchangeService;
+
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -34,5 +33,10 @@ public class ExchangeController {
                                 codeBid
                         )
         );
+    }
+
+    @GetMapping("/rates")
+    public ResponseEntity<?> getRatesForCurrencySet(@RequestBody Set<String> codes){
+        return ResponseEntity.ok(exchangeService.getByCodes(codes));
     }
 }

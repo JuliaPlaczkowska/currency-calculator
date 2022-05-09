@@ -8,7 +8,9 @@ import pl.example.currencycalculator.model.dto.CurrencyDto;
 import pl.example.currencycalculator.model.dto.TableDto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -27,14 +29,19 @@ public class ExchangeService {
     }
 
     private CurrencyDto getByCode(String code) {
+        List<CurrencyDto> currencies = getByCodes(new HashSet<String>() {{
+            add(code);
+        }});
+        return currencies.get(0);
+    }
+
+    public List<CurrencyDto> getByCodes(Set<String> codes) {
         List<CurrencyDto> all = getAll();
-        return all.get(
-                all.indexOf(
-                        CurrencyDto
-                                .builder()
-                                .code(code)
-                                .build())
-        );
+        return all
+                .stream()
+                .filter(
+                        currency -> codes.contains(currency.getCode()))
+                .collect(Collectors.toList());
     }
 
     public List<String> getAllCodes() {
@@ -45,12 +52,12 @@ public class ExchangeService {
     }
 
     public float convertCurrency(String codeAsk,
-                                  float valueAsk,
-                                  String codeBid) {
+                                 float valueAsk,
+                                 String codeBid) {
 
         CurrencyDto currencyAsk = getByCode(codeAsk);
         CurrencyDto currencyBid = getByCode(codeBid);
 
-        return valueAsk*currencyAsk.getMid()/currencyBid.getMid();
+        return valueAsk * currencyAsk.getMid() / currencyBid.getMid();
     }
 }
