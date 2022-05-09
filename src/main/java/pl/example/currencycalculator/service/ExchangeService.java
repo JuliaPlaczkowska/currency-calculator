@@ -55,11 +55,23 @@ public class ExchangeService {
     }
 
     public String convertCurrency(String codeAsk,
-                                 float valueAsk,
-                                 String codeBid) {
+                                  float valueAsk,
+                                  String codeBid) {
 
-        CurrencyDto currencyAsk = getByCode(codeAsk);
-        CurrencyDto currencyBid = getByCode(codeBid);
+        List<CurrencyDto> currencies = getByCodes(new HashSet<String>() {{
+            add(codeAsk);
+            add(codeBid);
+        }});
+
+        CurrencyDto currencyAsk = new CurrencyDto(),
+                currencyBid = new CurrencyDto();
+
+        for (CurrencyDto currency :
+                currencies)
+            if (currency.getCode().equals(codeAsk))
+                currencyAsk = currency;
+            else currencyBid = currency;
+
 
         float result = valueAsk * currencyAsk.getMid() / currencyBid.getMid();
         String decimalFormat = "0.00";
