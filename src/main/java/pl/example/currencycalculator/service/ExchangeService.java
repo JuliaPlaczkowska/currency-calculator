@@ -7,6 +7,8 @@ import org.springframework.web.client.RestTemplate;
 import pl.example.currencycalculator.model.dto.CurrencyDto;
 import pl.example.currencycalculator.model.dto.TableDto;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +34,7 @@ public class ExchangeService {
         List<CurrencyDto> currencies = getByCodes(new HashSet<String>() {{
             add(code);
         }});
+
         return currencies.get(0);
     }
 
@@ -51,13 +54,16 @@ public class ExchangeService {
                 .collect(Collectors.toList());
     }
 
-    public float convertCurrency(String codeAsk,
+    public String convertCurrency(String codeAsk,
                                  float valueAsk,
                                  String codeBid) {
 
         CurrencyDto currencyAsk = getByCode(codeAsk);
         CurrencyDto currencyBid = getByCode(codeBid);
 
-        return valueAsk * currencyAsk.getMid() / currencyBid.getMid();
+        float result = valueAsk * currencyAsk.getMid() / currencyBid.getMid();
+        String decimalFormat = "0.00";
+        NumberFormat formatter = new DecimalFormat(decimalFormat);
+        return formatter.format(result);
     }
 }

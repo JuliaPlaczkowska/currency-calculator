@@ -21,22 +21,20 @@ public class ExchangeController {
     }
 
     @GetMapping("/convert")
-    public String convert(@RequestParam String codeAsk,
+    public ResponseEntity<?> convert(@RequestParam String codeAsk,
                           @RequestParam float valueAsk,
                           @RequestParam String codeBid) {
-        return String.format(
-                "%.2f",
-                exchangeService
-                        .convertCurrency(
-                                codeAsk,
-                                valueAsk,
-                                codeBid
-                        )
-        );
+        String conversionResult = exchangeService
+                .convertCurrency(
+                        codeAsk,
+                        valueAsk,
+                        codeBid
+                );
+        return ResponseEntity.ok(conversionResult);
     }
 
     @GetMapping("/rates")
-    public ResponseEntity<?> getRatesForCurrencySet(@RequestBody Set<String> codes){
+    public ResponseEntity<?> getRatesForCurrencySet(@RequestBody Set<String> codes) {
         return ResponseEntity.ok(exchangeService.getByCodes(codes));
     }
 }
