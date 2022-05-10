@@ -11,9 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.example.currencycalculator.exceptions.InvalidCurrencyCodeException;
 import pl.example.currencycalculator.exceptions.InvalidInputException;
 import pl.example.currencycalculator.exceptions.NoContentException;
+import pl.example.currencycalculator.model.dto.CurrencyDto;
 import pl.example.currencycalculator.repo.ActivityLogRepo;
 
 import java.util.HashSet;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ExchangeServiceTest {
@@ -67,7 +69,6 @@ class ExchangeServiceTest {
 
     @Test
     void convertCurrency_shouldReturnPositiveValue_whenGivenPositiveAskValue() {
-        // then
         Assertions.assertAll(
                 () -> Assertions.assertTrue(Float.parseFloat(exchangeService.convertCurrency("USD", 1, "EUR")) > 0),
                 () -> Assertions.assertTrue(Float.parseFloat(exchangeService.convertCurrency("CHF", 14, "AUD")) > 0),
@@ -90,8 +91,10 @@ class ExchangeServiceTest {
             add("CZK");
             add("DKK");
         }};
+        // when
+        List<CurrencyDto> result = exchangeService.getByCodes(codes);
         // then
-        Assertions.assertEquals(codes.size(), exchangeService.getByCodes(codes).size());
+        Assertions.assertEquals(codes.size(), result.size());
     }
 
 }
