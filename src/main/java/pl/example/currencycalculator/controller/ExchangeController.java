@@ -15,7 +15,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("api/v1")
 public class ExchangeController {
 
     private final String FAILED_TO_LOAD_DATA = "Failed to load data";
