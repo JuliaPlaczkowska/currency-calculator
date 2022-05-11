@@ -66,7 +66,7 @@ public class ExchangeController {
     }
 
     @GetMapping("/rates")
-    public ResponseEntity<?> getRatesForCurrencySet(@RequestBody Set<String> codes) {
+    public ResponseEntity<?> getRatesForCurrencySet(@RequestParam Set<String> codes) {
         try {
             return ResponseEntity.ok(exchangeService.getByCodes(codes));
         } catch (NoContentException e) {
