@@ -4,7 +4,7 @@ Welcome to my awesome **currency exchange calculator!**
 ## Setup
 To run this project with Docker Compose use command:
 ````
-docker-compose run
+docker-compose up
 ````
 
 ## API Documentation
